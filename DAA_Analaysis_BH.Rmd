@@ -1,0 +1,100 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+#Step 0: Load libraries/packages
+```{r setup, message = TRUE}
+library("rstatix")
+library("stats")
+library("parallel")
+library("BiocParallel")
+```
+
+#Step 1: remove objects
+```{r}
+rm(list = ls())
+getwd()
+```
+#Step 2: Load Data
+```{r}
+total_20 <- read.csv("Refined_20_Total_List.csv", header = TRUE, row.names = "Gene_id")
+```
+
+
+#Step 3: Display dimension and first six rows
+```{r}
+dim(total_20 )
+head(total_20 )
+```
+
+#Step 4: transpose data then display transposed data
+```{r}
+transposed_data <- t(total_20)
+head(transposed_data)
+```
+
+#Step 5: Clean up transposed data
+```{r}
+transposed_data <- data.frame(transposed_data)
+
+groups <- c("CONT", "CONT", "CONT", "TREAT", "TREAT", "TREAT")
+
+new_data <- cbind(groups, transposed_data)
+rownames(new_data) <- NULL
+```
+
+#Step 6: Display cleaned up data
+```{r}
+head(new_data)
+```
+
+#Step 7: Perform Wilcox test individually
+```{r}
+
+wilcox.test( GeneID_0051216
+ ~ groups,data = new_data, paired = FALSE, exact = TRUE, correct = FALSE)
+
+wilcox.test( GeneID_005121600
+ ~ groups,data = new_data, paired = FALSE, exact = TRUE, correct = TRUE)
+
+wilcox.test( GeneID_0022774
+ ~ groups,data = new_data, paired = FALSE, exact = TRUE, correct = FALSE)
+
+wilcox.test( GeneID_0022774
+ ~ groups,data = new_data, paired = FALSE, exact = TRUE, correct = TRUE)
+
+wilcox.test( GeneID_0039316
+ ~ groups,data = new_data, paired = FALSE, exact = TRUE, correct = FALSE)
+
+wilcox.test( GeneID_0039316
+ ~ groups,data = new_data, paired = FALSE, exact = TRUE, correct = TRUE)
+
+wilcox.test( GeneID_0002565
+ ~ groups,data = new_data, paired = FALSE, exact = TRUE, correct = FALSE)
+
+wilcox.test( GeneID_0002565
+ ~ groups,data = new_data, paired = FALSE, exact = TRUE, correct = TRUE)
+
+wilcox.test( GeneID_0035434
+ ~ groups,data = new_data, paired = FALSE, exact = TRUE, correct = FALSE)
+
+wilcox.test( GeneID_0035434
+ ~ groups,data = new_data, paired = FALSE, exact = TRUE, correct = TRUE)
+
+wilcox.test( GeneID_0026268
+ ~ groups,data = new_data, paired = FALSE, exact = TRUE, correct = FALSE)
+
+wilcox.test( GeneID_0026268
+ ~ groups,data = new_data, paired = FALSE, exact = TRUE, correct = TRUE)
+```
+
+#Step 7: Export DF for Thesis
+```{r}
+write.csv(total_20, "Wilcoxon_Input_20_List_09_05_23.csv")
+write.csv(new_data, "Wilcoxon_Output_20_List_09_05_23.csv")
+```
+
+#Step 8: Perform B-H Correection
+p.adjust(p, BH, n = 60)
+
